@@ -1,0 +1,24 @@
+---
+- name: Create node-exporter container
+  become: true
+  community.docker.docker_container:
+    name: "{{ cadvisor_service_name }}"
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    privileged: yes
+    #command: "{{ node_exporter_args }}"
+    detach: true
+    image: "{{ cadvisor_image }}"
+    network_mode: host
+    pid_mode: host
+    state: started
+    devices:
+      - "/dev/kmsg:/dev/kmsg"
+    volumes:
+      - "/:/rootfs:ro"
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+

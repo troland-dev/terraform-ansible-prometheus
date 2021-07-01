@@ -1,0 +1,17 @@
+- name: Start Horovod worker container
+  community.docker.docker_container:
+    name: horovod_worker
+    network_mode: host
+    recreate: yes
+    restart: yes
+    privileged: yes
+    restart_policy: always
+    image: fsattila/horovod:0.19.3-tf2.1.0-torch1.4.0-mxnet1.6.0-py3.6-cpu-nfs
+    command: ["sleep", "infinity"]
+    env:
+      NFS_SERVER: "-o\ port=32049\ {{ NFS_SERVER }}"
+      NFS_SERVER_PATH_SSH: "/"
+      NFS_SERVER_PATH_HOROVOD: "/horovod"
+      SSH_SERVER: "true"
+      SSH_SERVER_PORT: "12345"
+    state: started

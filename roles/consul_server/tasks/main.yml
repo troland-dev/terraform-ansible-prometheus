@@ -1,0 +1,36 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/consul.d
+    state: directory
+    mode: '0755'
+
+- name: Template a services.json to /etc/file.conf
+  ansible.builtin.template:
+    src: templates/services.json.j2
+    dest: /etc/consul.d/services.json
+    
+- name: Template a consul.hcl to /etc/file.conf
+  ansible.builtin.template:
+    src: templates/consul.hcl.j2
+    dest: /etc/consul.d/consul.hcl
+
+
+- name: Create Consul server container
+  become: true
+  community.docker.docker_container:
+    name: "consul_server"
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    privileged: yes
+    command: "{{ consul_server_args }}"
+    detach: true
+    image: "{{ consul_image }}"
+    network_mode: host
+    state: started
+    volumes:
+      - "/tmp/consul:/consul/data"
+      - "/etc/consul.d:/consul/config"
+

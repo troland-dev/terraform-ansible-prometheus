@@ -1,0 +1,20 @@
+{
+  "services": [
+  {
+    "name": "node_exporter_horovodworker",
+    "tags": [
+      "nodeExporter_master"
+    ],
+    "port": {{ node_exporter_port }}
+  },
+
+
+  {
+    "name": "cadvisor_horovodworker",
+    "tags": [
+      "Cadvisor_master"
+    ],
+    "port": {{ cadvisor_port }}  
+  }
+]
+}

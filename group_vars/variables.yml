@@ -1,0 +1,35 @@
+---
+node_exporter_args:
+  - '--path.rootfs /host'
+node_exporter_image: prom/node-exporter:v1.1.2
+node_exporter_service_name: "node-exporter"
+
+
+cadvisor_image: gcr.io/cadvisor/cadvisor:v0.37.5
+cadvisor_service_name: "cadvisor"
+
+prometheus_server_image: prom/prometheus:v2.28.0
+grafana_image: grafana/grafana:8.0.3
+
+
+prometheus_config_source: /home/executor/ansible-test/roles/prometheus_server//templates/prometheus.yml
+prometheus_config_destination: /etc/prometheus/
+
+consul_image: consul:1.9.6
+consul_server_args:
+  - 'agent -server'
+  - '-bind={{ PROMETHEUS_IP }}'
+  - '-bootstrap-expect=1'
+  
+consul_agent_args:
+  - 'agent'
+  - '-bind={{ SELF_NODE_IP }}'
+  - '-retry-join={{ PROMETHEUS_IP }}'
+  
+node_exporter_port: 9100
+cadvisor_port: 8080
+grafana_port: 3000
+prometheus_url_ip: "{{ PROMETHEUS_IP }}"
+cadvisor-exporter_rev1_DataSourceVariable: Prometheus
+
+

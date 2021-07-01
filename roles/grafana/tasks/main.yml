@@ -1,0 +1,62 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /var/lib/grafana
+    state: directory
+    mode: '0755'
+    
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/grafana/provisioning/datasources
+    state: directory
+    mode: '0755'
+    
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/grafana/provisioning/dashboards
+    state: directory
+    mode: '0755'
+
+- name: Template a prometheus.yml.j2 to /etc/grafana/grafana_config
+  ansible.builtin.template:
+    src: templates/datasource_yml_files/prometheus.yml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yml
+    
+- name: Template a prometheus_ds.yml to etc/grafana/grafana_config/
+  ansible.builtin.copy:
+    src: templates/dashboard_yml_files/prometheus_ds.yml
+    dest: /etc/grafana/provisioning/datasources/prometheus_ds.yml
+    
+- name: Copy dashboard_json_files to /etc/grafana/grafana_json/
+  ansible.builtin.copy:
+    src: templates/dashboard_json_files/
+    dest: /etc/grafana/provisioning/dashboards/
+    
+#- name: Template a consul.hcl to /etc/file.conf
+#  ansible.builtin.template:
+#   src: templates/dashboard_json_files/
+#   dest: /etc/grafana/grafana_json/
+
+- name: Create Grafana server container
+  become: true
+  community.docker.docker_container:
+    name: "grafana_server"
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    #env:
+    #    DS_PROMETHEUS: "Prometheus"
+    user: root
+    #command: "{{ consul_server_args }}"
+    detach: true
+    image: "{{ grafana_image }}"
+    published_ports:
+      - "{{ grafana_port }}:3000"
+    state: started
+    volumes:
+      - "/var/lib/grafana:/var/lib/grafana"
+      - "/etc/grafana/provisioning/datasources/prometheus.yml:/etc/grafana/provisioning/datasources/prometheus.yml"
+      - "/etc/grafana/provisioning/datasources/prometheus_ds.yml:/etc/grafana/provisioning/dashboards/prometheus_ds.yml"
+      - "/etc/grafana/provisioning/dashboards/:/etc/grafana/provisioning/dashboards/"
+

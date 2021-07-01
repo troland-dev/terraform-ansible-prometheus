@@ -1,0 +1,32 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/prometheus
+    state: directory
+    mode: '0755'
+
+- name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: templates/prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+
+
+- name: Create node-exporter container
+  become: true
+  community.docker.docker_container:
+    name: "prometheus_server"
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    privileged: yes
+    #command: "{{ node_exporter_args }}"
+    detach: true
+    image: "{{ prometheus_server_image }}"
+    published_ports:
+      - "9090:9090"
+    pid_mode: host
+    state: started
+    volumes:
+      - "/etc/prometheus:/etc/prometheus"
+

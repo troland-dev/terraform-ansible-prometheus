@@ -1,0 +1,28 @@
+{
+  "services": [
+  {
+    "name": "Prometheus_server_nodeExporter",
+    "tags": [
+      "nodeExporter_master"
+    ],
+    "port": {{ node_exporter_port }}
+  },
+
+
+  {
+    "name": "Prometheus_server_Cadvisor",
+    "tags": [
+      "Cadvisor_master"
+    ],
+    "port": {{ cadvisor_port }}  
+  },
+  
+  {
+    "name": "grafana",
+    "tags": [
+      "Grafana"
+    ],
+    "port": {{ grafana_port }}  
+  }
+]
+}

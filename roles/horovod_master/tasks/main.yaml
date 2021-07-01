@@ -1,0 +1,37 @@
+- name: Start NFS docker container
+  community.docker.docker_container:
+    name: nfs
+    image: itsthenetwork/nfs-server-alpine:12
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    privileged: yes
+    ports:
+      - "32049:2049"
+    env:
+      SHARED_DIRECTORY: "/nfsshare"
+      SHARED_DIRECTORY_2: "/nfsshare/horovod"
+    volumes:
+      - /mnt/nfsshare:/nfsshare
+      - /mnt/nfsshare/horovod:/nfsshare/horovod
+    state: started
+
+- name: Start Horovod master container
+  community.docker.docker_container:
+    name: horovod_master
+    network_mode: host
+    recreate: yes
+    restart: yes
+    privileged: yes
+    restart_policy: always
+    image: fsattila/horovod:0.19.3-tf2.1.0-torch1.4.0-mxnet1.6.0-py3.6-cpu-nfs
+    command: --ip=0.0.0.0 --no-browser --allow-root --notebook-dir=/horovod
+    env:
+      NFS_SERVER: "-o\ port=32049\ localhost"
+      NFS_SERVER_PATH_SSH: "/"
+      NFS_SERVER_PATH_HOROVOD: "/horovod"
+      SSH_SERVER: "true"
+      SSH_SERVER_PORT: "12345"
+      JUPYTER_LAB: "true"
+      GENERATE_SSH_KEY: "true"
+    state: started

@@ -1,0 +1,14 @@
+---
+- name: Create Horovod master
+  hosts: all
+  #remote_user: root
+  become: yes
+  vars_files:
+    - ./group_vars/variables.yml
+  roles:
+    - docker
+    - prometheus_node_exporter
+    - prometheus_cadvisor
+    - prometheus_server
+    - consul_server
+    - grafana
