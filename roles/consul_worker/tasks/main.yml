@@ -7,16 +7,16 @@
     mode: '0755'
 
 - name: Template a services_master.json to /etc/file.conf
-  vars:
-    node_name : "{{ NODE_NAME }}"
+  #vars:
+  #  node_name : "{{ NODE_NAME }}"
   ansible.builtin.template:
     src: templates/services_master.json.j2
     dest: /etc/consul.d/services.json
   when: node_name == "Horovod_master"
 
 - name: Template a services_worker.json to /etc/file.conf
-  vars:
-    node_name : "{{ NODE_NAME }}"
+  #vars:
+  #  node_name : "{{ NODE_NAME }}"
   ansible.builtin.template:
     src: templates/services_worker.json.j2
     dest: /etc/consul.d/services.json

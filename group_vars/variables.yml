@@ -31,5 +31,6 @@ cadvisor_port: 8080
 grafana_port: 3000
 prometheus_url_ip: "{{ PROMETHEUS_IP }}"
 cadvisor-exporter_rev1_DataSourceVariable: Prometheus
+node_name : "{{ NODE_NAME }}"
 
 

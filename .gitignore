@@ -4,3 +4,25 @@ auth_data.auto.tfvars
 *.tfstate
 *.tfstate.*
 
+### Terraform ###
+# Local .terraform directories
+**/.terraform/*
+
+# Crash log files
+crash.log
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
