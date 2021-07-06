@@ -8,6 +8,8 @@ auth_data.auto.tfvars
 # Local .terraform directories
 **/.terraform/*
 
+sample_auth_data.auto.tfvars
+
 # Crash log files
 crash.log
 

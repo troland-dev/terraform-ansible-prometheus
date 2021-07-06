@@ -32,5 +32,7 @@ grafana_port: 3000
 prometheus_url_ip: "{{ PROMETHEUS_IP }}"
 cadvisor-exporter_rev1_DataSourceVariable: Prometheus
 node_name : "{{ NODE_NAME }}"
+horovod_master_maxCPULoad: "1.6"
+horovod_worker_maxCPULoad: "1.6"
 
 

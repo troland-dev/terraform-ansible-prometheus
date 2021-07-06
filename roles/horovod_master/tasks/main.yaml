@@ -25,7 +25,7 @@
     privileged: yes
     restart_policy: always
     image: fsattila/horovod:0.19.3-tf2.1.0-torch1.4.0-mxnet1.6.0-py3.6-cpu-nfs
-    command: --ip=0.0.0.0 --no-browser --allow-root --notebook-dir=/horovod
+    command: --ip=0.0.0.0 --cpus={{ horovod_master_maxCPULoad }} --no-browser --allow-root --notebook-dir=/horovod 
     env:
       NFS_SERVER: "-o\ port=32049\ localhost"
       NFS_SERVER_PATH_SSH: "/"
