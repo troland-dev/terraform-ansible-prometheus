@@ -31,7 +31,7 @@
 - name: Create Consul agent container
   become: true
   community.docker.docker_container:
-    name: "consul_server"
+    name: "consul_agent"
     recreate: yes
     restart: yes
     restart_policy: always
