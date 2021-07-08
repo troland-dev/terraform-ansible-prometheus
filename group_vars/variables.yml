@@ -1,6 +1,7 @@
 ---
 node_exporter_args:
   - '--path.rootfs /host'
+  - '--collector.textfile.directory /host/etc/csvToPromFile'
 node_exporter_image: prom/node-exporter:v1.1.2
 node_exporter_service_name: "node-exporter"
 
@@ -32,7 +33,7 @@ grafana_port: 3000
 prometheus_url_ip: "{{ PROMETHEUS_IP }}"
 cadvisor-exporter_rev1_DataSourceVariable: Prometheus
 node_name : "{{ NODE_NAME }}"
-horovod_master_maxCPULoad: "1.6"
-horovod_worker_maxCPULoad: "1.6"
+horovod_master_maxCPULoad: 1.6
+horovod_worker_maxCPULoad: 1.6
 
 
