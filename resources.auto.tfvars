@@ -4,7 +4,7 @@ openstack_provider = ({
 })
 
 horovod_master_node = ({
-    name = "hororvod_master"
+    name = "horovod_master"
     flavor_name = "m1.medium"
     image_id = "88bafb03-b169-4289-8f6f-c0cffc9177ca"
     key_pair = "my-sshkey"

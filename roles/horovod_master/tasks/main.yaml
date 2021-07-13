@@ -35,4 +35,6 @@
       SSH_SERVER_PORT: "12345"
       JUPYTER_LAB: "true"
       GENERATE_SSH_KEY: "true"
+    volumes:
+      - /etc/csvHorovodFile:/examples/csvlog
     state: started

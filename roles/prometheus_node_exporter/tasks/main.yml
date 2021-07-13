@@ -1,4 +1,45 @@
 ---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/csvToPromFile
+    state: directory
+    mode: '0755'
+    owner: "ubuntu"
+  when: node_name == "Horovod_master"
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/csvHorovodFile
+    state: directory
+    mode: '0755'
+    owner: "ubuntu"
+  when: node_name == "Horovod_master"
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/csvToPromPython
+    state: directory
+    mode: '0755'
+    owner: "ubuntu"
+  when: node_name == "Horovod_master"
+
+- name: Template a CsvToPromConverter.py to /etc/file.conf
+  ansible.builtin.template:
+    src: templates/CsvToPromConverter.py
+    dest: /etc/csvToPromPython/CsvToPromConverter.py
+  when: node_name == "Horovod_master"
+
+- name: Cronjob to change .cvs training file to .prom file
+  ansible.builtin.cron:
+    name: "run a python file"
+    job: "/usr/bin/python3 /etc/csvToPromPython/CsvToPromConverter.py"
+    user: root
+    #state: absent
+    cron_file: run_PythonConverter
+  when: node_name == "Horovod_master"
+
+
 - name: Create node-exporter container
   become: true
   community.docker.docker_container:
