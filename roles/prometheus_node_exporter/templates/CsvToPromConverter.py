@@ -14,8 +14,12 @@ if os.path.exists(forrasmappa_helye + "/training.log") and os.path.isfile(forras
         forrasfile.readline()
         for sor in forrasfile:
             sor = sor.strip("\n").split(",")
-            uj_file.write("training_metrics{metric_type=\"loss\", epoch=\"" + sor[0] + "\"} " + sor[2] + "\n")
-            uj_file.write("training_metrics{metric_type=\"acc\", epoch=\"" + sor[0] + "\"} " + sor[1] + "\n")
+            if (len(sor[0]) == 1 ):
+                uj_file.write("training_metrics{metric_type=\"loss\", epoch=\"" + "0" + sor[0] + "\"} " + sor[2] + "\n")
+                uj_file.write("training_metrics{metric_type=\"acc\", epoch=\"" + "0" + sor[0] + "\"} " + sor[1] + "\n")
+            else:
+                uj_file.write("training_metrics{metric_type=\"loss\", epoch=\"" + sor[0] + "\"} " + sor[2] + "\n")
+                uj_file.write("training_metrics{metric_type=\"acc\", epoch=\"" + sor[0] + "\"} " + sor[1] + "\n")
 
 uj_file.close()
 
