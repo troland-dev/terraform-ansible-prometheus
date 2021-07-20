@@ -1,5 +1,5 @@
 ---
-- name: Create Horovod master
+- name: Create Monitoring server
   hosts: all
   #remote_user: root
   become: yes
