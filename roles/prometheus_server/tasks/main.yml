@@ -12,7 +12,7 @@
     dest: /etc/prometheus/prometheus.yml
 
 
-- name: Create node-exporter container
+- name: Create prometheus_server container
   become: true
   community.docker.docker_container:
     name: "prometheus_server"
