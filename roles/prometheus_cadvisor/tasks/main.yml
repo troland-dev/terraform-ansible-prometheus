@@ -1,5 +1,5 @@
 ---
-- name: Create node-exporter container
+- name: Create cadvisor-exporter container
   become: true
   community.docker.docker_container:
     name: "{{ cadvisor_service_name }}"
@@ -7,7 +7,6 @@
     restart: yes
     restart_policy: always
     privileged: yes
-    #command: "{{ node_exporter_args }}"
     detach: true
     image: "{{ cadvisor_image }}"
     network_mode: host
