@@ -20,7 +20,6 @@
     restart: yes
     restart_policy: always
     privileged: yes
-    #command: "{{ node_exporter_args }}"
     detach: true
     image: "{{ prometheus_server_image }}"
     published_ports:
