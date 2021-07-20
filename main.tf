@@ -127,7 +127,7 @@ resource "openstack_compute_instance_v2" "monitoring_server" {
   
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.access_ip_v4}\" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.access_ip_v4} NODE_NAME=Monitoring_server \" "
   }
 }
 
