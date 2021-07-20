@@ -15,6 +15,10 @@ provider "openstack" {
   auth_url    = var.openstack_provider.auth_url
 }
 
+
+
+# Define networking_secgroup and rules for them
+
 resource "openstack_networking_secgroup_v2" "terraform_monitoring_server" {
   name        = "terraform_monitoring_server"
   description = "Created by Terraform. Do not use or manage manually."
@@ -117,6 +121,9 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_9" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.terraform_horovod_master.id}"
 }
+
+
+# Define compute instances and run Ansible command after provisioning and boot
 
 resource "openstack_compute_instance_v2" "monitoring_server" {
   name            = var.monitoring_server_node.name

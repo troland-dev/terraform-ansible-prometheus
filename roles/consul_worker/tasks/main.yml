@@ -6,6 +6,8 @@
     state: directory
     mode: '0755'
 
+
+# These 2 builtin.template will execute only in Horovod master node
 - name: Template a services_master.json to /etc/file.conf
   ansible.builtin.template:
     src: templates/services_master.json.j2

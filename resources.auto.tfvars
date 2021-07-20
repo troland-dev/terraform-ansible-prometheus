@@ -1,3 +1,5 @@
+# Set values to the variables
+
 openstack_provider = ({
     tenant_name = "DDL"
     auth_url = "https://sztaki.cloud.mta.hu:5000/v3"
