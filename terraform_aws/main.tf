@@ -219,7 +219,7 @@ resource "aws_instance" "monitoring_server" {
 
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.public_ip} NODE_NAME=Monitoring_server SELF_NODE_IP=${self.private_ip} \" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} ../monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.public_ip} NODE_NAME=Monitoring_server SELF_NODE_IP=${self.private_ip} \" "
   }
 
   tags = {
@@ -246,7 +246,7 @@ resource "aws_instance" "horovod_master" {
 
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} horovod_master.yaml --extra-vars \"PROMETHEUS_IP=${aws_instance.monitoring_server.private_ip} NODE_NAME=Horovod_master SELF_NODE_IP=${self.private_ip}\" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} ../horovod_master.yaml --extra-vars \"PROMETHEUS_IP=${aws_instance.monitoring_server.private_ip} NODE_NAME=Horovod_master SELF_NODE_IP=${self.private_ip}\" "
   }
 
   tags = {
@@ -273,7 +273,7 @@ resource "aws_instance" "horovod_workers" {
 
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} horovod_worker.yaml --extra-vars \"NFS_SERVER=${aws_instance.horovod_master.private_ip} NODE_NAME=Horovod_worker PROMETHEUS_IP=${aws_instance.monitoring_server.private_ip} SELF_NODE_IP=${self.private_ip}\" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 60 && ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.ssh_path} ../horovod_worker.yaml --extra-vars \"NFS_SERVER=${aws_instance.horovod_master.private_ip} NODE_NAME=Horovod_worker PROMETHEUS_IP=${aws_instance.monitoring_server.private_ip} SELF_NODE_IP=${self.private_ip}\" "
   }
 
   tags = {

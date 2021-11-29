@@ -134,7 +134,7 @@ resource "openstack_compute_instance_v2" "monitoring_server" {
   
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.access_ip_v4} NODE_NAME=Monitoring_server \" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' ../monitoring_server.yaml --extra-vars \"PROMETHEUS_IP=${self.access_ip_v4} NODE_NAME=Monitoring_server \" "
   }
 }
 
@@ -147,7 +147,7 @@ resource "openstack_compute_instance_v2" "horovod_master" {
   
   provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' horovod_master.yaml --extra-vars \"PROMETHEUS_IP=${openstack_compute_instance_v2.monitoring_server.access_ip_v4} NODE_NAME=Horovod_master SELF_NODE_IP=${self.access_ip_v4}\" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' ../horovod_master.yaml --extra-vars \"PROMETHEUS_IP=${openstack_compute_instance_v2.monitoring_server.access_ip_v4} NODE_NAME=Horovod_master SELF_NODE_IP=${self.access_ip_v4}\" "
   }
 }
 
@@ -162,7 +162,7 @@ resource "openstack_compute_instance_v2" "horovod_workers" {
 
    provisioner "local-exec" {
     working_dir = "./"
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' horovod_worker.yaml --extra-vars \"NFS_SERVER=${openstack_compute_instance_v2.horovod_master.access_ip_v4} NODE_NAME=Horovod_worker PROMETHEUS_IP=${openstack_compute_instance_v2.monitoring_server.access_ip_v4} SELF_NODE_IP=${self.access_ip_v4}\" "
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_SSH_RETRIES=10 sleep 30 && ansible-playbook -i '${self.access_ip_v4},' ../horovod_worker.yaml --extra-vars \"NFS_SERVER=${openstack_compute_instance_v2.horovod_master.access_ip_v4} NODE_NAME=Horovod_worker PROMETHEUS_IP=${openstack_compute_instance_v2.monitoring_server.access_ip_v4} SELF_NODE_IP=${self.access_ip_v4}\" "
   }
 
 }
