@@ -1,6 +1,0 @@
-[master]
-masternode ansible_host=10.241.0.45 ansible_user=roli ansible_ssh_private_key_file=/home/executor/ssh\ kulcs\ ansible/Ansible1kulcs
-
-[worker]
-workernode ansible_host=10.241.0.231 ansible_user=roli ansible_ssh_private_key_file=/home/executor/ssh\ kulcs\ ansible/Ansible1kulcs
-
