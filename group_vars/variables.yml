@@ -19,7 +19,7 @@ prometheus_config_destination: /etc/prometheus/
 consul_image: consul:1.9.6
 consul_server_args:
   - 'agent -server'
-  - '-bind={{ PROMETHEUS_IP }}'
+  - '-bind={{ SELF_NODE_IP }}'
   - '-bootstrap-expect=1'
   
 consul_agent_args:

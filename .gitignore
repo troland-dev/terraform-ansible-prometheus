@@ -1,4 +1,4 @@
-auth_data.auto.tfvars
+
 
 # .tfstate files
 *.tfstate
